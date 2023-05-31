@@ -17,8 +17,13 @@ resource "aws_instance" "app_server" {
   ami           = "ami-830c94e3"
   instance_type = "t2.micro"
   key_name = "aws_lab_alura_oregon"
-
+  user_data = <<-EOF
+                  #!/bin/bash
+                  cd /home/ubuntu
+                  echo "<h1>Subida via Terraform</h1>" > index.html
+                  nohup busybox httpd -f -p 8080 &
+                  EOF
   tags = {
-    Name = "instance test terraform"
+    Name = "instance terraform code"
   }
 }
